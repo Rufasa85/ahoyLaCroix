@@ -40,8 +40,17 @@ const seeds = async()=>{
                 pic:"https://www.lacroixwater.com/wp-content/uploads/2019/01/COCONUT.png"
             },
         ])
-        console.log(users[0].toJSON());
-        console.log(flavors[1].toJSON());
+        // console.log(users[0].toJSON());
+        // console.log(flavors[1].toJSON());
+       await  users[0].addLove(1)
+       await  users[2].addLove([1,2])
+       await flavors[1].addLovedBy([1,2,3]);
+       await flavors[2].addHatedBy([1,2,3]);
+       await users[1].addHate(1);
+       const joined = await User.findAll({
+        include:["Love","Hate"]
+       })
+       joined.forEach(usr=>console.log(usr.toJSON()))
         process.exit(0);
     }catch(err){
         console.log(err)
