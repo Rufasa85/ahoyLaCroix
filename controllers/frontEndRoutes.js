@@ -36,6 +36,9 @@ router.get("/user/:id",(req,res)=>{
     User.findByPk(req.params.id,{
         include:["Love","Hate"]
     }).then(foundUser=>{
+        if(!foundUser){
+            return res.redirect("/404")
+        }
         const hbsUser = foundUser.toJSON();
         console.log(hbsUser)
         hbsUser.loggedIn=true;
@@ -54,5 +57,10 @@ router.get("/user/:id",(req,res)=>{
         })
     })
 })
-
+router.get("/404",(req,res)=>{
+    res.render("404")
+})
+router.get("*",(req,res)=>{
+    res.render("404")
+})
 module.exports = router;
