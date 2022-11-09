@@ -65,7 +65,7 @@ router.post("/login",(req,res)=>{
 //logout
 router.get("/logout",(req,res)=>{
     req.session.destroy();
-    res.json({msg:"logged out!"})
+    res.redirect("/")
 })
 //add loved
 router.post("/love/:flavorId",(req,res)=>{

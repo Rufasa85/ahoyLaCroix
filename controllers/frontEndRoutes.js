@@ -2,29 +2,48 @@ const express = require('express');
 const router = express.Router();
 const {User,Flavor} = require('../models');
 
-//TODO: pass in auth state
 router.get('/',(req,res)=>{
-    res.render("home")
+    res.render("home",{
+        loggedIn:req.session.loggedIn,
+        userId:req.session.userId
+    })
 })
 router.get('/login',(req,res)=>{
-    //TODO: redirect authenticated users away from this page
-    res.render("login")
+    if(req.session.loggedIn){
+        return res.redirect(`/user/${req.session.userId}`)
+    }
+    res.render("login",{
+        loggedIn:false,
+        userId:null
+    })
 })
 
 //signup
 router.get('/signup',(req,res)=>{
-    //TODO: redirect authenticated users away from this page
-    res.render("signup")
+    if(req.session.loggedIn){
+        return res.redirect(`/user/${req.session.userId}`)
+    }
+    res.render("signup",{
+        loggedIn:false,
+        userId:null
+    })
 })
 //profile
 router.get("/user/:id",(req,res)=>{
-    //TODO: protect, need to be logged in to view
-    //TODO: check if its my profile
+    if(!req.session.loggedIn){
+        return res.redirect(`/login`)
+    }
     User.findByPk(req.params.id,{
         include:["Love","Hate"]
     }).then(foundUser=>{
         const hbsUser = foundUser.toJSON();
         console.log(hbsUser)
+        hbsUser.loggedIn=true;
+        hbsUser.userId=req.session.userId;
+        //TODO: check if its my profile
+        if(hbsUser.id===req.session.userId){
+            hbsUser.isMyProfile=true;
+        }
         // res.json(hbsUser)
         res.render("profile",hbsUser)
     })
