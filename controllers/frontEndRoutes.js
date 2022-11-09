@@ -17,5 +17,17 @@ router.get('/signup',(req,res)=>{
     res.render("signup")
 })
 //profile
+router.get("/user/:id",(req,res)=>{
+    //TODO: protect, need to be logged in to view
+    //TODO: check if its my profile
+    User.findByPk(req.params.id,{
+        include:["Love","Hate"]
+    }).then(foundUser=>{
+        const hbsUser = foundUser.toJSON();
+        console.log(hbsUser)
+        // res.json(hbsUser)
+        res.render("profile",hbsUser)
+    })
+})
 
 module.exports = router;
