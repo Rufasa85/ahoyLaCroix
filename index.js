@@ -1,10 +1,10 @@
 const express = require('express');
-// const session = require('express-session');
+const session = require('express-session');
 // const exphbs = require('express-handlebars');
-// const allRoutes = require('./controllers');
+const allRoutes = require('./controllers');
 
 const sequelize = require('./config/connection');
-// const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Sets up the Express App
 // =============================================================
@@ -13,17 +13,19 @@ const PORT = process.env.PORT || 3000;
 // Requiring our models for syncing
 const { User,Flavor} = require('./models');
 
-// const sess = {
-//     secret: 'Super secret secret',
-//     cookie: {},
-//     resave: false,
-//     saveUninitialized: true,
-//     store: new SequelizeStore({
-//         db: sequelize
-//     })
-// };
+const sess = {
+    secret: process.env.SESSION_SECRET,
+    cookie: {
+        maxAge:1000*60*60*2
+    },
+    resave: false,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: sequelize
+    })
+};
 
-// app.use(session(sess));
+app.use(session(sess));
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,11 +37,8 @@ app.use(express.json());
 // app.engine('handlebars', hbs.engine);
 // app.set('view engine', 'handlebars');
 
-// app.use('/',allRoutes);
+app.use('/',allRoutes);
 
-app.get("/",(req,res)=>{
-    res.send("my first route")
-})
 
 sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
