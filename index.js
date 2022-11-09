@@ -1,7 +1,7 @@
 const express = require('express');
 // const session = require('express-session');
 // const exphbs = require('express-handlebars');
-// const allRoutes = require('./controllers');
+const allRoutes = require('./controllers');
 
 const sequelize = require('./config/connection');
 // const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -35,11 +35,8 @@ app.use(express.json());
 // app.engine('handlebars', hbs.engine);
 // app.set('view engine', 'handlebars');
 
-// app.use('/',allRoutes);
+app.use('/',allRoutes);
 
-app.get("/",(req,res)=>{
-    res.send("my first route")
-})
 
 sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
