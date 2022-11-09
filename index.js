@@ -11,7 +11,7 @@ const sequelize = require('./config/connection');
 const app = express();
 const PORT = process.env.PORT || 3000;
 // Requiring our models for syncing
-const { User} = require('./models');
+const { User,Flavor} = require('./models');
 
 // const sess = {
 //     secret: 'Super secret secret',
@@ -41,7 +41,7 @@ app.get("/",(req,res)=>{
     res.send("my first route")
 })
 
-sequelize.sync({ force: true }).then(function() {
+sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
     console.log('App listening on PORT ' + PORT);
     });

@@ -1,5 +1,5 @@
 const sequelize = require("../config/connection");
-const { User } = require("../models");
+const { User,Flavor } = require("../models");
 
 const seeds = async()=>{
     try {
@@ -26,7 +26,22 @@ const seeds = async()=>{
         ],{
             individualHooks:true
         })
+        const flavors = await Flavor.bulkCreate([
+            {
+                name:"Beach Plum",
+                pic:"https://www.lacroixwater.com/wp-content/uploads/2021/03/IMG-Beach-Plum-821.png"
+            },
+            {
+                name:"Limoncello",
+                pic:"https://www.lacroixwater.com/wp-content/uploads/2020/01/LIMONCELLO.png"
+            },
+            {
+                name:"Coconut",
+                pic:"https://www.lacroixwater.com/wp-content/uploads/2019/01/COCONUT.png"
+            },
+        ])
         console.log(users[0].toJSON());
+        console.log(flavors[1].toJSON());
         process.exit(0);
     }catch(err){
         console.log(err)
