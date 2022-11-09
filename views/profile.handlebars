@@ -6,12 +6,44 @@
     <h3>Loves</h3>
 <div class="canBox">
     {{#each Love}}
+    <div class="canDiv">
         <img src="{{pic}}" alt="{{name}} can of la croix">
+        {{#if ../isMyProfile}}
+        <button class="removeLove"data-id={{id}}>Remove</button>
+        {{/if}}
+    </div>
     {{/each}}
+     {{#if isMyProfile}}
+       <form class="canDiv" id="addLoveForm">
+            <select name="" id="chosenLoveFlavor">
+                {{#each flavors}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+            </select>
+            <button>Add Flavor</button>
+       </form>
+     {{/if}}
 </div>
     <h3>Hates</h3>
 <div class="canBox">
     {{#each Hate}}
+       <div class="canDiv">
         <img src="{{pic}}" alt="{{name}} can of la croix">
+         {{#if ../isMyProfile}}
+        <button class="removeHate"data-id={{id}}>Remove</button>
+        {{/if}}
+    </div>
+        
     {{/each}}
+     {{#if isMyProfile}}
+       <form class="canDiv" id="addHateForm">
+            <select name="" id="chosenHateFlavor">
+                {{#each flavors}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+            </select>
+            <button>Add Flavor</button>
+       </form>
+     {{/if}}
 </div>
+<script src="/js/profile.js"></script>

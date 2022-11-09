@@ -45,7 +45,13 @@ router.get("/user/:id",(req,res)=>{
             hbsUser.isMyProfile=true;
         }
         // res.json(hbsUser)
-        res.render("profile",hbsUser)
+        Flavor.findAll().then(flavors=>{
+            //TODO: remove flavors already loved from array before sending to template
+            const hbsFlavors = flavors.map(flav=>flav.toJSON())
+            hbsUser.flavors = hbsFlavors
+            console.log(hbsUser)
+            res.render("profile",hbsUser)
+        })
     })
 })
 
